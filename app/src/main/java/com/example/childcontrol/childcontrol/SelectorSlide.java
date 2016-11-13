@@ -24,50 +24,6 @@ import com.heinrichreimersoftware.materialintro.view.parallax.ParallaxFragment;
 
 import butterknife.OnClick;
 
-
-/*private RadioGroup radioGroup;
-
-private UserTypeDao userTypeDao;
-
-@Nullable
-@Override
-public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-final View view = inflater.inflate(R.layout.activity_selector, container, false);
-        radioGroup = (RadioGroup) view.findViewById(R.id.radioGroup1);
-
-        // get the note DAO
-        DaoSession daoSession = ((App) getApplication()).getDaoSession();
-        userTypeDao = daoSession.getUserTypeDao();
-
-        return view;
-        }
-
-@OnClick({ R.id.radio1, R.id.radio2 })
-public void onRadioButtonClicked(RadioButton radioButton) {
-        // Is the button now checked?
-        boolean checked = radioButton.isChecked();
-
-        // Check which radio button was clicked
-        switch (radioButton.getId()) {
-        case R.id.parent:
-        if (checked) {
-        UserType userType = userTypeDao.queryBuilder().build().unique();
-        if(userType == null) {
-        userType = new UserType(UserType.PARENT_USER_TYPE);
-        userTypeDao.insert(userType);
-        Toast.makeText(getApplicationContext(),
-        userType.getType(), Toast.LENGTH_SHORT).show();
-        }
-        }
-        break;
-        case R.id.child:
-        if (checked) {
-
-        }
-        break;
-        }
-    }*/
-
 public class SelectorSlide implements Slide, RestorableSlide, ButtonCtaSlide {
 
     private final UserTypeDao userTypeDao;
@@ -335,7 +291,11 @@ public class SelectorSlide implements Slide, RestorableSlide, ButtonCtaSlide {
                     break;
                 case R.id.child:
                     if (checked) {
-
+                        UserType userType = userTypeDao.queryBuilder().build().unique();
+                        if (userType == null) {
+                            userType = new UserType(UserType.CHILD_USER_TYPE);
+                            userTypeDao.insert(userType);
+                        }
                     }
                     break;
             }
