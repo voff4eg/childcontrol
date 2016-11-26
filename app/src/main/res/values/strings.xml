@@ -6,6 +6,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_selector">SelectorActivity</string>
+    <string name="title_menu_reset_first_start">Reset "First start" flag</string>
 
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>

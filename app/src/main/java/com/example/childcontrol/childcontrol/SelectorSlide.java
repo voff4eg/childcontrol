@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.ColorRes;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
@@ -164,7 +165,9 @@ public class SelectorSlide implements Slide, RestorableSlide, ButtonCtaSlide {
         }
 
         public Builder fragment(@LayoutRes int layoutRes, @StyleRes int themeRes) {
-            this.fragment = SelectorSlideFragment.newInstance(layoutRes, themeRes);
+            this.fragment = SelectorSlideFragment.newInstance(layoutRes, themeRes, this.userTypeDao);
+            //this.setUserTypeDao(this.userTypeDao);
+            //this.fragment.userTypeDao = userTypeDao;
             return this;
         }
 
@@ -236,16 +239,20 @@ public class SelectorSlide implements Slide, RestorableSlide, ButtonCtaSlide {
                 "com.heinrichreimersoftware.materialintro.SimpleFragment.ARGUMENT_LAYOUT_RES";
         private static final String ARGUMENT_THEME_RES =
                 "com.heinrichreimersoftware.materialintro.SimpleFragment.ARGUMENT_THEME_RES";
+        private static final String ARGUMENT_USERTYPEDAO_RES =
+                "com.heinrichreimersoftware.materialintro.SimpleFragment.ARGUMENT_USERTYPEDAO_RES";
+        protected UserTypeDao userTypeDao;
+        UserType userType;
         private RadioGroup radioGroup;
-        private UserTypeDao userTypeDao;
 
         public SelectorSlideFragment() {
         }
 
-        public static SelectorSlideFragment newInstance(@LayoutRes int layoutRes, @StyleRes int themeRes) {
+        public static SelectorSlideFragment newInstance(@LayoutRes int layoutRes, @StyleRes int themeRes, UserTypeDao userTypeDao) {
             Bundle arguments = new Bundle();
             arguments.putInt(ARGUMENT_LAYOUT_RES, layoutRes);
             arguments.putInt(ARGUMENT_THEME_RES, themeRes);
+            //arguments.put(ARGUMENT_USERTYPEDAO_RES, userTypeDao);
 
             SelectorSlideFragment fragment = new SelectorSlideFragment();
             fragment.setArguments(arguments);
@@ -253,7 +260,7 @@ public class SelectorSlide implements Slide, RestorableSlide, ButtonCtaSlide {
         }
 
         public static SelectorSlideFragment newInstance(@LayoutRes int layoutRes) {
-            return newInstance(layoutRes, 0);
+            return newInstance(layoutRes, 0, null);
         }
 
         @Override
@@ -268,9 +275,35 @@ public class SelectorSlide implements Slide, RestorableSlide, ButtonCtaSlide {
             }
             LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
 
-            radioGroup = (RadioGroup) container.findViewById(R.id.radioGroup1);
-
             return localInflater.inflate(getArguments().getInt(ARGUMENT_LAYOUT_RES), container, false);
+        }
+
+
+        public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+//            getParentFragment().onViewCreated(view, savedInstanceState);
+            radioGroup = (RadioGroup) view.findViewById(R.id.radioGroup1);
+            //radioGroup.setOnClickListener(onRadioButtonClicked);
+            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    switch (checkedId) {
+                        case R.id.parent:
+                            userType = getUserTypeDao().queryBuilder().build().unique();
+                            if (userType == null || userType.getType() == null) {
+                                userType = new UserType(UserType.PARENT_USER_TYPE);
+                                userTypeDao.insertOrReplace(userType);
+                            }
+                            break;
+                        case R.id.child:
+                            userType = getUserTypeDao().queryBuilder().build().unique();
+                            if (userType == null || userType.getType() == null) {
+                                userType = new UserType(UserType.CHILD_USER_TYPE);
+                                userTypeDao.insertOrReplace(userType);
+                            }
+                            break;
+                    }
+                }
+            });
         }
 
         @OnClick({R.id.parent, R.id.child})
@@ -282,23 +315,31 @@ public class SelectorSlide implements Slide, RestorableSlide, ButtonCtaSlide {
             switch (radioButton.getId()) {
                 case R.id.parent:
                     if (checked) {
-                        UserType userType = userTypeDao.queryBuilder().build().unique();
+                        UserType userType = this.userTypeDao.queryBuilder().build().unique();
                         if (userType == null) {
                             userType = new UserType(UserType.PARENT_USER_TYPE);
-                            userTypeDao.insert(userType);
+                            this.userTypeDao.insertOrReplace(userType);
                         }
                     }
                     break;
                 case R.id.child:
                     if (checked) {
-                        UserType userType = userTypeDao.queryBuilder().build().unique();
+                        UserType userType = this.userTypeDao.queryBuilder().build().unique();
                         if (userType == null) {
                             userType = new UserType(UserType.CHILD_USER_TYPE);
-                            userTypeDao.insert(userType);
+                            this.userTypeDao.insertOrReplace(userType);
                         }
                     }
                     break;
             }
+        }
+
+        public UserTypeDao getUserTypeDao() {
+            return this.userTypeDao;
+        }
+
+        public void setUserTypeDao(UserTypeDao userTypeDao) {
+            this.userTypeDao = userTypeDao;
         }
     }
 }
