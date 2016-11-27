@@ -21,9 +21,6 @@
         <activity
             android:name=".SplashIntroActivity"
             android:theme="@style/Theme.Intro" />
-        <activity
-            android:name=".SelectorSlide"
-            android:label="@string/title_activity_selector" />
         <activity android:name=".MapActivity"></activity>
     </application>
 

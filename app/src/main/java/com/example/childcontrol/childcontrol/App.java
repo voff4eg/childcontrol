@@ -24,6 +24,10 @@ public class App extends Application {
         Database db = ENCRYPTED ? helper.getEncryptedWritableDb("super-secret") : helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();
 
+        //reinit db
+        /*DaoMaster.dropAllTables(daoSession.getDatabase(), true);
+        DaoMaster.createAllTables(daoSession.getDatabase(), true);*/
+
         SystemClock.sleep(TimeUnit.SECONDS.toMillis(1));
     }
 

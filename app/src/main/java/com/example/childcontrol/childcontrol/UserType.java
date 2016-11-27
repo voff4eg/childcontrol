@@ -2,6 +2,8 @@ package com.example.childcontrol.childcontrol;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Index;
 
 @Entity
 public class UserType {
@@ -9,10 +11,15 @@ public class UserType {
     public static final String PARENT_USER_TYPE = "parent";
     public static final String CHILD_USER_TYPE = "child";
 
+    @Id(autoincrement = true)
+    private Long id;
+
+    @Index(unique = true)
     private String type;
 
-    @Generated(hash = 2116731890)
-    public UserType(String type) {
+    @Generated(hash = 757177013)
+    public UserType(Long id, String type) {
+        this.id = id;
         this.type = type;
     }
 
@@ -20,8 +27,16 @@ public class UserType {
     public UserType() {
     }
 
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getType() {
-        return type;
+        return this.type;
     }
 
     public void setType(String type) {

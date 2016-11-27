@@ -14,7 +14,6 @@ public class SplashIntroActivity extends IntroActivity {
 
     private UserTypeDao userTypeDao;
     private UserType userType;
-    private SelectorSlide SelectorSlide;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,22 +91,22 @@ public class SplashIntroActivity extends IntroActivity {
             case R.id.parent:
                 userType = userTypeDao.queryBuilder().build().unique();
                 if (userType == null || userType.getType() == null) {
-                    userType = new UserType(UserType.PARENT_USER_TYPE);
+                    userType = new UserType(null, UserType.PARENT_USER_TYPE);
                     userTypeDao.insertOrReplace(userType);
                 } else if (!userType.getType().equals(UserType.PARENT_USER_TYPE)) {
                     userType.setType(UserType.PARENT_USER_TYPE);
-                    userTypeDao.insertOrReplace(userType);
+                    userTypeDao.update(userType);
                 }
                 Toast.makeText(getApplicationContext(), UserType.PARENT_USER_TYPE, Toast.LENGTH_SHORT).show();
                 break;
             case R.id.child:
                 userType = userTypeDao.queryBuilder().build().unique();
                 if (userType == null) {
-                    userType = new UserType(UserType.CHILD_USER_TYPE);
+                    userType = new UserType(null, UserType.CHILD_USER_TYPE);
                     userTypeDao.insertOrReplace(userType);
                 } else if (!userType.getType().equals(UserType.CHILD_USER_TYPE)) {
                     userType.setType(UserType.CHILD_USER_TYPE);
-                    userTypeDao.insertOrReplace(userType);
+                    userTypeDao.update(userType);
                 }
                 Toast.makeText(getApplicationContext(), UserType.CHILD_USER_TYPE, Toast.LENGTH_SHORT).show();
                 break;
