@@ -25,6 +25,7 @@ public class SplashActivity extends AppCompatActivity {
         DaoSession daoSession = ((App) getApplication()).getDaoSession();
         userTypeDao = daoSession.getUserTypeDao();
         List<UserType> userType = userTypeDao.queryBuilder().list();
+
         userTypeDao.deleteAll();
 
         /*userTypeNew = userType.get(0);

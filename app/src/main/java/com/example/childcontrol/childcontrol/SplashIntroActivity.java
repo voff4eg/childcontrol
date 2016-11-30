@@ -1,7 +1,6 @@
 package com.example.childcontrol.childcontrol;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide;
@@ -42,28 +41,13 @@ public class SplashIntroActivity extends IntroActivity {
                 .build();
         addSlide(selectorSlide);
 
-        /*addSlide(new FragmentSlide.Builder()
+        final Slide finishSlide;
+        finishSlide = new FragmentSlide.Builder()
                 .background(R.color.first_slide_background)
                 .backgroundDark(R.color.second_slide_background)
-                .fragment(R.layout.activity_selector, R.style.AppTheme)
-                .userTypeDao(userTypeDao)
-                .build());*/
-
-        addSlide(new SimpleSlide.Builder()
-                .title(R.string.title_material_bold)
-                .description(R.string.description_material_bold)
-                .image(R.drawable.art_material_bold)
-                .background(R.color.color_material_bold)
-                .backgroundDark(R.color.color_dark_material_bold)
-                .build());
-
-        addSlide(new SimpleSlide.Builder()
-                .title(R.string.title_material_motion)
-                .description(R.string.description_material_motion)
-                .image(R.drawable.art_material_motion)
-                .background(R.color.color_material_motion)
-                .backgroundDark(R.color.color_dark_material_motion)
-                .build());
+                .fragment(FinishFragment.newInstance())
+                .build();
+        addSlide(finishSlide);
     }
 
     public UserTypeDao getUserTypeDao() {
@@ -97,7 +81,6 @@ public class SplashIntroActivity extends IntroActivity {
                     userType.setType(UserType.PARENT_USER_TYPE);
                     userTypeDao.update(userType);
                 }
-                Toast.makeText(getApplicationContext(), UserType.PARENT_USER_TYPE, Toast.LENGTH_SHORT).show();
                 break;
             case R.id.child:
                 userType = userTypeDao.queryBuilder().build().unique();
@@ -108,7 +91,6 @@ public class SplashIntroActivity extends IntroActivity {
                     userType.setType(UserType.CHILD_USER_TYPE);
                     userTypeDao.update(userType);
                 }
-                Toast.makeText(getApplicationContext(), UserType.CHILD_USER_TYPE, Toast.LENGTH_SHORT).show();
                 break;
         }
     }

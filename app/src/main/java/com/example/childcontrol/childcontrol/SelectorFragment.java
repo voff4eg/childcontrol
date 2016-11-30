@@ -14,6 +14,7 @@ public class SelectorFragment extends SlideFragment {
 
     protected UserTypeDao userTypeDao;
     UserType userType;
+    boolean canGoForward = false;
     private RadioGroup radioGroup;
 
     public SelectorFragment() {
@@ -24,20 +25,38 @@ public class SelectorFragment extends SlideFragment {
         return new SelectorFragment();
     }
 
+    public boolean isCanGoForward() {
+        return canGoForward;
+    }
+
+    public void setCanGoForward(boolean canGoForward) {
+        this.canGoForward = canGoForward;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.activity_selector, container, false);
+        root.clearFocus();
 
         radioGroup = (RadioGroup) root.findViewById(R.id.radioGroup1);
+        radioGroup.clearCheck();
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+                setCanGoForward(true);
                 EventBus.getDefault().post(new MessageEvent(checkedId));
             }
         });
 
         return root;
+    }
+
+    @Override
+    public boolean canGoForward() {
+        boolean canGoForward = super.canGoForward();
+        canGoForward = canGoForward && isCanGoForward();
+        return canGoForward;
     }
 }
