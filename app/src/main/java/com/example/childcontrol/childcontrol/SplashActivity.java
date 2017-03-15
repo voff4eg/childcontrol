@@ -10,12 +10,8 @@ import butterknife.ButterKnife;
 
 
 public class SplashActivity extends AppCompatActivity {
-
-    public static final String PREF_KEY_FIRST_START = "com.heinrichreimersoftware.materialintro.demo.PREF_KEY_FIRST_START";
     public static final int REQUEST_CODE_INTRO = 1;
     boolean firstStart = true;
-    private UserTypeDao userTypeDao;
-    private UserType userTypeNew;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,10 +19,10 @@ public class SplashActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         DaoSession daoSession = ((App) getApplication()).getDaoSession();
-        userTypeDao = daoSession.getUserTypeDao();
+        UserTypeDao userTypeDao = daoSession.getUserTypeDao();
         List<UserType> userType = userTypeDao.queryBuilder().list();
 
-        userTypeDao.deleteAll();
+        //userTypeDao.deleteAll();
 
         /*userTypeNew = userType.get(0);
         userTypeNew.setType(UserType.PARENT_USER_TYPE);

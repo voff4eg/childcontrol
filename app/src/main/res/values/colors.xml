@@ -20,6 +20,8 @@
     <color name="custom_slide_buttons">#1A237E</color>
 
     <color name="color_material_metaphor">#039BE5</color>
+    <color name="color_material_permission">#039B23</color>
+    <color name="color_dark_permission">#034B23</color>
     <color name="color_dark_material_metaphor">#0277BD</color>
     <color name="color_material_bold">#EC407A</color>
     <color name="color_dark_material_bold">#D81B60</color>

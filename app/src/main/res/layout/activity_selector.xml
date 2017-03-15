@@ -4,8 +4,7 @@
     android:layout_gravity="center"
     android:fitsSystemWindows="false"
     android:gravity="center"
-    android:orientation="vertical"
-    android:padding="@dimen/mi_baseline">
+    android:orientation="vertical">
 
     <RadioGroup
         android:id="@+id/radioGroup1"
@@ -18,15 +17,15 @@
             android:id="@+id/parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="RadioButton1" />
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
 
         <RadioButton
             android:id="@+id/child"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="RadioButton2" />
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
 
     </RadioGroup>
 

@@ -12,7 +12,6 @@ import de.greenrobot.event.EventBus;
 public class SplashIntroActivity extends IntroActivity {
 
     private UserTypeDao userTypeDao;
-    private UserType userType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +39,14 @@ public class SplashIntroActivity extends IntroActivity {
                 .fragment(SelectorFragment.newInstance())
                 .build();
         addSlide(selectorSlide);
+
+        /*addSlide(new SimpleSlide.Builder()
+                .title(R.string.title_permission_selector)
+                .description(R.string.description_permission)
+                .background(R.color.color_material_permission)
+                .backgroundDark(R.color.color_dark_permission)
+                .permission(Manifest.permission.ACCESS_FINE_LOCATION)
+                .build());*/
 
         final Slide finishSlide;
         finishSlide = new FragmentSlide.Builder()
@@ -70,10 +77,9 @@ public class SplashIntroActivity extends IntroActivity {
     // В этом методе-колбэке мы получаем наши данные
     // (объект `event` типа класса-модели MessageEvent)
     public void onEvent(MessageEvent event) {
-        // извлекаем из модели отправленную строку: event.message = "Hello everyone!"
         switch (event.res) {
             case R.id.parent:
-                userType = userTypeDao.queryBuilder().build().unique();
+                UserType userType = userTypeDao.queryBuilder().build().unique();
                 if (userType == null || userType.getType() == null) {
                     userType = new UserType(null, UserType.PARENT_USER_TYPE);
                     userTypeDao.insertOrReplace(userType);
